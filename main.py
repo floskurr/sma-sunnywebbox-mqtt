@@ -10,6 +10,7 @@ MQTT_PORT = int(os.environ.get("MQTT_PORT", 1883))
 MQTT_TOPIC_POWER = "solar/power"
 MQTT_TOPIC_DAILY_YIELD = "solar/daily_yield"
 MQTT_TOPIC_TOTAL_YIELD = "solar/total_yield"
+UPDATE_INTERVAL = int(os.environ.get("UPDATE_INTERVAL", 60))
 
 # WebBox URL
 WEBBOX_URL = os.environ.get("WEBBOX_URL") + ("/home.htm") # get webbox url from environment
@@ -26,6 +27,7 @@ elif not WEBBOX_URL.startswith("http://"):
 print("MQTT Broker: " + MQTT_BROKER)
 print("MQTT Port: " + str(MQTT_PORT))
 print("Webbox Request url: " + WEBBOX_URL)
+print("Update Interval: " + str(UPDATE_INTERVAL))
 
 # configure mqtt-client
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
@@ -60,4 +62,4 @@ if __name__ == "__main__":
     while True:
         power, daily_yield, total_yield = fetch_data()
         publish_mqtt(power, daily_yield, total_yield)
-        time.sleep(60)  # wait 1 minute
+        time.sleep(UPDATE_INTERVAL)
