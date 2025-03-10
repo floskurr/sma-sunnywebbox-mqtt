@@ -40,8 +40,20 @@ def fetch_data():
         soup = BeautifulSoup(response.text, 'html.parser')
         
         # extract values from html, remove unit and replace the "," with a "."
+
+        # POWER
         power = soup.find(id="Power").text.strip().split(" ")[0].replace(",", ".")
-        daily_yield = soup.find(id="DailyYield").text.strip().split(" ")[0].replace(",", ".")
+        print(power)
+
+        # DAILY_YIELD
+        daily_yield_text = soup.find(id="DailyYield").text.strip()
+        daily_yield = daily_yield_text.split(" ")[0].replace(",", ".")
+
+        if " Wh" in daily_yield_text: # Make sure the value gets converted to kWh
+            daily_yield = float(daily_yield) * (1/1000)
+        print(daily_yield)
+
+        # TOTAL YIELD
         total_yield = soup.find(id="TotalYield").text.strip().split(" ")[0].replace(",", ".")
         
         return power, daily_yield, total_yield
