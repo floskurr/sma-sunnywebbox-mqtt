@@ -49,7 +49,7 @@ def fetch_data():
         daily_yield = daily_yield_text.split(" ")[0].replace(",", ".")
 
         if " Wh" in daily_yield_text: # Make sure the value gets converted to kWh
-            daily_yield = float(daily_yield) * (1/1000)
+            daily_yield = str(float(daily_yield) * (1/1000))
 
         # TOTAL YIELD
         total_yield = soup.find(id="TotalYield").text.strip().split(" ")[0].replace(",", ".")
